@@ -221,6 +221,7 @@ videos.forEach((video) => {
 
 		// Check if mouse movement occurs within a container, handle it and return
 		if (handleMouseMovement(video, mouseX)) return;
+		e.stopPropagation();
 
 		// Check if the video is playing and update cursor accordingly
 		video.style.cursor = isVideoPlaying(video)
@@ -234,6 +235,7 @@ videos.forEach((video) => {
 
 		// Check if mouse click occurs within a container, handle it and return
 		if (handleMouseMovement(video, mouseX)) return;
+		e.stopPropagation();
 
 		// Check if the video is playing, pause or play accordingly
 		if (isVideoPlaying(video)) {
@@ -271,6 +273,7 @@ carousels.forEach((carousel) => {
 
 		// Check if mouse movement occurs within the carousel, handle it and return
 		if (handleMouseMovement(carousel, mouseX)) return;
+		e.stopPropagation();
 
 		// Update cursor based on mouse position
 		carousel.style.cursor =
@@ -289,7 +292,8 @@ carousels.forEach((carousel) => {
 
 		// Check if click occurs within the carousel, handle it and return
 		if (handleMouseMovement(carousel, mouseX)) return;
-
+		e.stopPropagation();
+		
 		// Determine scrolling direction based on click position
 		const scrolling =
 			mouseX > carouselLeft + carouselWidth * 0.5
