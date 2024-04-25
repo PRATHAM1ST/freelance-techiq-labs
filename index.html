@@ -11,7 +11,6 @@
 		<script src="https://unpkg.com/lenis@1.0.44/dist/lenis.min.js"></script>
 	</head>
 	<body>
-		
 		<div class="maincontainer">
 			<div class="container" id="cont1">
 				<div class="content-cover">
@@ -34,7 +33,7 @@
 					/>
 				</div>
 				<div class="hidden">
-					<div class="description">
+					<div class="description content-text">
 						Welcome to a celestial dining experience where
 						architecture meets the heavens. Our skydine restaurant
 						project blends innovation and elegance, offering patrons
@@ -50,21 +49,89 @@
 						heights with our architectural marvel, where every meal
 						is a celestial celebration.
 					</div>
-					<div class="content">
+					<div class="content content-carousel">
+						<div class="carousel">
+							<img
+								draggable="false"
+								src="/assets/VillaAtInfinity/steps/1.jpg"
+								alt="hero image"
+							/>
+							<p>
+								1. Start your projects with us, share your
+								thoughts and vision.
+							</p>
+							<small>01/05</small>
+						</div>
+						<div class="carousel">
+							<img
+								draggable="false"
+								src="/assets/VillaAtInfinity/steps/2.jpg"
+								alt="hero image"
+							/>
+							<p>2. We will create a 3D model of your project.</p>
+							<small>02/05</small>
+						</div>
+						<div class="carousel">
+							<img
+								draggable="false"
+								src="/assets/VillaAtInfinity/steps/3.jpg"
+								alt="hero image"
+							/>
+							<p>3. We will create a 3D model of your project.</p>
+							<small>03/05</small>
+						</div>
+						<div class="carousel">
+							<img
+								draggable="false"
+								src="/assets/VillaAtInfinity/steps/4.jpg"
+								alt="hero image"
+							/>
+							<p>4. We will create a 3D model of your project.</p>
+							<small>04/05</small>
+						</div>
+						<div class="carousel">
+							<img
+								draggable="false"
+								src="/assets/VillaAtInfinity/steps/5.jpg"
+								alt="hero image"
+							/>
+							<p>5. We will create a 3D model of your project.</p>
+							<small>05/05</small>
+						</div>
+					</div>
+					<div class="content content-image">
 						<img
 							draggable="false"
 							src="/assets/VillaAtInfinity/image2.png"
 							alt="hero image"
 						/>
 					</div>
-					<div class="content">
+					<div class="content content-video">
+						<video
+							draggable="false"
+							src="/assets/VillaAtInfinity/video.mp4"
+							alt="video"
+							autoplay="true"
+							loop="true"
+							muted
+							onblur="this.pause()"
+						/>
+					</div>
+					<div class="content content-image">
 						<img
 							draggable="false"
 							src="/assets/VillaAtInfinity/image3.png"
 							alt="hero image"
 						/>
 					</div>
-					<div class="content">
+					<div class="content content-gif">
+						<img
+							draggable="false"
+							src="/assets/VillaAtInfinity/gif.gif"
+							alt="gif"
+						/>
+					</div>
+					<div class="content content-image">
 						<img
 							draggable="false"
 							src="/assets/VillaAtInfinity/image4.png"
@@ -271,7 +338,13 @@
 		crossorigin="anonymous"
 		referrerpolicy="no-referrer"
 	></script>
-
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"
+		integrity="sha512-G7Wpe/pbg+zjyyM9HgQY6kacLAy+580lmA8DUXmZtioTI5FkaCRoLOaCLoeblrZABs7KZFD03cfSV9j7nmwxfw=="
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"
+	></script>
+	
 	<script>
 		const lenis = new Lenis();
 

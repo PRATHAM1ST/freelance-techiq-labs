@@ -4,6 +4,10 @@
 	--content-height: 250px;
 	--cursor-left: url("/assets/cursors/arrow_left_white.svg") 20 20, auto;
 	--cursor-right: url("/assets/cursors/arrow_right_white.svg") 20 20, auto;
+	--cursor-play: url("/assets/cursors/play.svg") 20 20, auto;
+	--cursor-pause: url("/assets/cursors/pause.svg") 20 20, auto;
+	--cursor-carousel-right: url("/assets/cursors/arrow_right_small.svg") 20 20, auto;
+	--cursor-carousel-left: url("/assets/cursors/arrow_left_small.svg") 20 20, auto;
 }
 
 * {
@@ -140,4 +144,39 @@ body {
 .reveal > .description,
 .reveal > .content {
 	display: block;
+}
+
+.content-carousel{
+	display: flex;
+	height: 100%;
+	width: 500px;
+	overflow: hidden;
+}
+
+.carousel{
+	width: 500px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.carousel img{
+	width: 500px;
+	height: fit-content;
+}
+
+.carousel p{
+	width: 500px;
+	text-align: center;
+	font-size: 0.8rem;
+	font-weight: 500;
+}
+
+.carousel small{
+	font-size: 0.6rem;
+	font-weight: 600;
+	color: grey;
+	letter-spacing: 0.1em;
 }
