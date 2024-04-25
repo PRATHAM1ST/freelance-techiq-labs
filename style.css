@@ -17,9 +17,15 @@
 
 body{
 	overflow-x: hidden;
+	transform-origin: center;
+}
+
+img{
+	user-drag: none;
 }
 
 .maincontainer {
+	user-select: none;
 	/* background: teal; */
 	margin: auto;
 	/* width: 70vw; */
@@ -27,6 +33,7 @@ body{
 }
 
 .container {
+	user-select: none;
 	cursor: pointer;
 	position: relative;
 	width: fit-content;

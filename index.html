@@ -2,16 +2,21 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no"
+		/>
 		<title>Document</title>
 		<link rel="stylesheet" href="style.css" />
 		<script src="https://unpkg.com/lenis@1.0.44/dist/lenis.min.js"></script>
 	</head>
 	<body>
+		<div id="cursor"></div>
 		<div class="maincontainer">
 			<div class="container" id="cont1">
 				<div class="content-cover">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/logo.png"
 						alt="logo"
 						class="logo"
@@ -22,6 +27,8 @@
 				</div>
 				<div class="hero-image">
 					<img
+						draggable="false"
+						draggable="false"
 						src="/assets/VillaAtInfinity/image1.png"
 						alt="hero image"
 					/>
@@ -45,18 +52,21 @@
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image2.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image3.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image4.png"
 							alt="hero image"
 						/>
@@ -66,6 +76,7 @@
 			<div class="container" id="cont2">
 				<div class="content-cover">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/logo.png"
 						alt="logo"
 						class="logo"
@@ -76,6 +87,7 @@
 				</div>
 				<div class="hero-image">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/image1.png"
 						alt="hero image"
 					/>
@@ -99,18 +111,21 @@
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image2.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image3.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image4.png"
 							alt="hero image"
 						/>
@@ -120,6 +135,7 @@
 			<div class="container" id="cont3">
 				<div class="content-cover">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/logo.png"
 						alt="logo"
 						class="logo"
@@ -130,6 +146,7 @@
 				</div>
 				<div class="hero-image">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/image1.png"
 						alt="hero image"
 					/>
@@ -153,18 +170,21 @@
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image2.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image3.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image4.png"
 							alt="hero image"
 						/>
@@ -174,6 +194,7 @@
 			<div class="container" id="cont4">
 				<div class="content-cover">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/logo.png"
 						alt="logo"
 						class="logo"
@@ -184,6 +205,7 @@
 				</div>
 				<div class="hero-image">
 					<img
+						draggable="false"
 						src="/assets/VillaAtInfinity/image1.png"
 						alt="hero image"
 					/>
@@ -207,18 +229,21 @@
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image2.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image3.png"
 							alt="hero image"
 						/>
 					</div>
 					<div class="content">
 						<img
+							draggable="false"
 							src="/assets/VillaAtInfinity/image4.png"
 							alt="hero image"
 						/>
@@ -227,23 +252,7 @@
 			</div>
 		</div>
 	</body>
-	<script>
-		const lenis = new Lenis();
 
-		// lenis.on("scroll", (e) => {
-		// 	console.log(e);
-		// });
-
-		function raf(time) {
-			lenis.raf(time);
-			requestAnimationFrame(raf);
-		}
-
-		requestAnimationFrame(raf);
-	</script>
-	<script defer>
-		// gsap.registerPlugin(ScrollToPlugin);
-	</script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
 		integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
@@ -262,6 +271,29 @@
 		crossorigin="anonymous"
 		referrerpolicy="no-referrer"
 	></script>
+
+	<script>
+		const lenis = new Lenis();
+
+		// lenis.on("scroll", (e) => {
+		// 	console.log(
+		// 		"scrolling",
+		// 		Math.max(0.65, 0.75 - Math.abs(e.velocity / 100))
+		// 	);
+		// 	document.body.style.scale = Math.max(
+		// 		0.7,
+		// 		0.75 - Math.abs(e.velocity / 100)
+		// 	);
+		// });
+
+		lenis.on("scroll", ScrollTrigger.update);
+
+		gsap.ticker.add((time) => {
+			lenis.raf(time * 2000);
+		});
+
+		gsap.ticker.lagSmoothing(500);
+	</script>
 
 	<script src="script.js" type="module"></script>
 </html>
