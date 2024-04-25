@@ -25,6 +25,8 @@ gsap.to(document.body, {
 
 // Function to handle mouse movement within container
 const handleMouseMovement = (element, mouseX) => {
+	if (isMobile) return false;
+	
 	if (mouseX > window.innerWidth * 0.8) {
 		activeContainer.style.cursor = "var(--cursor-right)";
 		element.style.cursor = "var(--cursor-right)";
@@ -73,8 +75,6 @@ async function expandContainer(container) {
 			openedContainers[container.id].bottomPadding ??
 			container.childNodes[1].offsetHeight;
 		const verticalOffset = (viewHeight - 590) / 2;
-
-		console.log("targetHeight", targetHeight);
 
 		const snapping = gsap.to(window, {
 			duration: 1,
@@ -308,17 +308,8 @@ lenis.on("scroll", (e) => {
 // Event listener for container clicks
 containers.forEach((container) => {
 	container.addEventListener("click", () => {
-		console.log('activeContainer', activeContainer);
 		// Check if GSAP scroll is in progress or a container is already expanded
 		if (isGsapScrolling || (activeContainer && !isMobile)) return;
-
-		console.log([
-			container.childNodes[3].childNodes[1],
-			...[...container.childNodes[3].childNodes[3].childNodes].filter(
-				(node) => node.nodeName === "DIV"
-			),
-		]);
-		console.log([container.childNodes[3].childNodes[1]]);
 
 		// Check if the container is not already in the openedContainers object
 		if (!openedContainers[container.id]) {
