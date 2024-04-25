@@ -10,36 +10,14 @@ gsap.to(document.body, {
 	scale: 0.75,
 });
 
-// gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, TweenLite);
 async function expandthecontainer(container) {
 	gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-	console.log(
-		"container",
-		[...container.childNodes[5].childNodes].filter(
-			(node) => node.nodeName === "DIV"
-		)
-	);
-	console.log("container", [
-		container.childNodes[3],
-		...[...container.childNodes[5].childNodes].filter(
-			(node) => node.nodeName === "DIV"
-		),
-	]);
-	var viewWidth = window.innerWidth;
 	var viewHeight = window.innerHeight;
-	var targetWidth = container.offsetWidth;
-	var targetHeight = container.offsetHeight;
-	var x = (viewWidth - targetWidth) / 2;
+	var targetHeight = viewHeight * 0.6;
 	var y = (viewHeight - 590) / 2;
-	console.log("x", x, "y", y);
-	// container.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
-	// await gsap.to(window, { duration: 1, scrollTo: {x: x, y: y}, offsetY: y, offsetX: x });
-	// center the container
 
 	gsapScroll = true;
-
-	console.log("body", "scale: 1");
 
 	await gsap.to(document.body, {
 		duration: 1,
@@ -60,7 +38,7 @@ async function expandthecontainer(container) {
 		duration: 1,
 		x: 0,
 		width: "100%",
-		height: "60vh",
+		height: targetHeight,
 		overflowX: "scroll",
 		margin: "5rem 0",
 		ease: "power2.inOut",
@@ -99,19 +77,67 @@ async function expandthecontainer(container) {
 		),
 	];
 
-	// gsap.to(sections, {
-	// 	ease: "none",
-	// 	scrollTrigger: {
-	// 		trigger: container,
-	// 		scrub: 1,
-	// 		snap: 1 / (sections.length - 1),
-	// 		end: () => "+=" + container.offsetWidth,
-	// 	},
-	// });
+	let currentSection = 0;
+
+	let containerCursorPositionClicked = {
+		left: false,
+		right: false,
+	};
+
+	container.addEventListener("mousemove", (e) => {
+		const containerWidth = container.offsetWidth;
+		const containerLeft = container.getBoundingClientRect().left;
+		const mouseEnterX = e.clientX;
+
+		// Check if mouse entered from the right side of 10% of the container width
+		if (mouseEnterX > containerLeft + containerWidth * 0.8) {
+			container.style.cursor = "var(--cursor-right)";
+			containerCursorPositionClicked.right = true;
+		} else if (mouseEnterX < containerLeft + containerWidth * 0.2) {
+			container.style.cursor = "var(--cursor-left)";
+			containerCursorPositionClicked.left = true;
+		} else {
+			container.style.cursor = "grab";
+			containerCursorPositionClicked.left = false;
+			containerCursorPositionClicked.right = false;
+		}
+	});
+
+	container.addEventListener("click", (e) => {
+		if (containerCursorPositionClicked.right) {
+			currentSection = (currentSection + 1) % sections.length;
+			gsap.to(container, {
+				duration: 1,
+				scrollTo: {
+					x: sections[currentSection].offsetLeft,
+					offsetX:
+						(window.innerWidth -
+							sections[currentSection % sections.length]
+								.offsetWidth) /
+						2,
+				},
+				cursor: "var(--cursor-right)",
+			});
+		} else if (containerCursorPositionClicked.left) {
+			currentSection =
+				currentSection === 0 ? sections.length - 1 : currentSection - 1;
+			gsap.to(container, {
+				duration: 1,
+				scrollTo: {
+					x: sections[currentSection].offsetLeft,
+					offsetX:
+						(window.innerWidth -
+							sections[currentSection % sections.length]
+								.offsetWidth) /
+						2,
+				},
+				cursor: "var(--cursor-left)",
+			});
+		}
+	});
 }
 
 lenis.on("scroll", (e) => {
-	// console.log(e);
 	if (gsapScroll) return;
 
 	gsap.to(currentContainer, {
@@ -122,18 +148,19 @@ lenis.on("scroll", (e) => {
 
 	gsap.to(document.body, {
 		duration: 1,
-		scale: Math.max(0.75, 0.75 - Math.abs(e.velocity / 100)),
+		scale: Math.max(0.7, 0.75 - Math.abs(e.velocity / 100)),
 	});
+
+	currentContainer = null;
 });
 
 allContainers.forEach((container) => {
-	container.addEventListener("scroll", () => {
-		console.log("scrolling container");
-	});
-
 	container.addEventListener("click", () => {
+		if (gsapScroll) return;
+		if (currentContainer) return;
+
+		// window.location.href = window.location.origin + "#" + container.id;
 		document.body.style.overflowX = "scroll";
-		console.log("container clicked");
 		expandthecontainer(container);
 	});
 });

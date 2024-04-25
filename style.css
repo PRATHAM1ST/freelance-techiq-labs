@@ -2,6 +2,8 @@
 
 :root {
 	--content-height: 250px;
+	--cursor-left: url("/assets/cursors/arrow_left_white.svg") 20 20, auto;
+	--cursor-right: url("/assets/cursors/arrow_right_white.svg") 20 20, auto;
 }
 
 * {
@@ -15,14 +17,32 @@
 	display: none;
 }
 
-body{
-	overflow-x: hidden;
-	transform-origin: center;
+html.lenis,
+html.lenis body {
+	height: auto;
 }
 
-img{
-	user-drag: none;
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
 }
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+	pointer-events: none;
+}
+
+body {
+	overflow-x: hidden;
+	transform-origin: top;
+}
+
 
 .maincontainer {
 	user-select: none;

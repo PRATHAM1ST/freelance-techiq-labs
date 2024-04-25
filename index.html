@@ -11,7 +11,7 @@
 		<script src="https://unpkg.com/lenis@1.0.44/dist/lenis.min.js"></script>
 	</head>
 	<body>
-		<div id="cursor"></div>
+		
 		<div class="maincontainer">
 			<div class="container" id="cont1">
 				<div class="content-cover">
@@ -275,24 +275,13 @@
 	<script>
 		const lenis = new Lenis();
 
-		// lenis.on("scroll", (e) => {
-		// 	console.log(
-		// 		"scrolling",
-		// 		Math.max(0.65, 0.75 - Math.abs(e.velocity / 100))
-		// 	);
-		// 	document.body.style.scale = Math.max(
-		// 		0.7,
-		// 		0.75 - Math.abs(e.velocity / 100)
-		// 	);
-		// });
-
 		lenis.on("scroll", ScrollTrigger.update);
 
 		gsap.ticker.add((time) => {
-			lenis.raf(time * 2000);
+			lenis.raf(time * 500);
 		});
 
-		gsap.ticker.lagSmoothing(500);
+		gsap.ticker.lagSmoothing(200);
 	</script>
 
 	<script src="script.js" type="module"></script>
