@@ -3,6 +3,9 @@ const containers = document.querySelectorAll(".container");
 const videos = document.querySelectorAll("video");
 const carousels = document.querySelectorAll(".content-carousel");
 
+// Check if window width is less than 768px
+const isMobile = window.innerWidth < 768;
+
 // Store opened containers
 const openedContainers = {};
 
@@ -17,17 +20,25 @@ let cursorPosition = {
 // Initial body scale
 gsap.to(document.body, {
 	duration: 1,
-	scale: 0.75,
+	scale: isMobile ? 1 : 0.75,
 });
 
 // Function to handle mouse movement within container
 const handleMouseMovement = (element, mouseX) => {
 	if (mouseX > window.innerWidth * 0.8) {
+		console.log("right");
+		activeContainer.style.cursor = "var(--cursor-right)";
 		element.style.cursor = "var(--cursor-right)";
 		cursorPosition.right = true;
+		cursorPosition.left = false;
+		return true;
 	} else if (mouseX < window.innerWidth * 0.2) {
+		console.log("left");
+		activeContainer.style.cursor = "var(--cursor-left)";
 		element.style.cursor = "var(--cursor-left)";
 		cursorPosition.left = true;
+		cursorPosition.right = false;
+		return true;
 	} else {
 		cursorPosition.left = false;
 		cursorPosition.right = false;
@@ -46,6 +57,7 @@ const isVideoPlaying = (video) =>
 
 // Function to expand container
 async function expandContainer(container) {
+	console.log(container);
 	// Register GSAP plugins
 	gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, Draggable);
 
@@ -90,8 +102,8 @@ async function expandContainer(container) {
 	// Animate the container's expansion
 	const containerAnimation = gsap.to(container, {
 		duration: 1,
-		x: 0,
-		width: "100%",
+		x: isMobile ? "-5%" : 0,
+		width: isMobile ? "111.11%" : "100%",
 		height: targetHeight,
 		overflowX: "scroll",
 		margin: "5rem 0",
@@ -104,11 +116,12 @@ async function expandContainer(container) {
 	});
 
 	// Reveal hidden content within the container
-	const revealHiddenContentAnimation = gsap.to(`#${container.id} > .hidden`, {
+	const revealHiddenContentAnimation = gsap.to(`#${container.id} .hidden`, {
 		duration: 1,
 		overflow: "visible",
 		width: "fit-content",
 		ease: "power2.inOut",
+		paddingLeft: "2rem",
 		stagger: 0.3,
 	});
 
@@ -141,10 +154,12 @@ async function expandContainer(container) {
 	// Handle click events within the container
 	container.addEventListener("click", (e) => {
 		if (cursorPosition.right) {
-			currentSection = (currentSection + 1) % sections.length;
-		} else if (cursorPosition.left) {
 			currentSection =
-				currentSection === 0 ? sections.length - 1 : currentSection - 1;
+				currentSection === sections.length - 1
+					? currentSection
+					: currentSection + 1;
+		} else if (cursorPosition.left) {
+			currentSection = currentSection === 0 ? 0 : currentSection - 1;
 		}
 
 		// Scroll to the selected section
@@ -180,7 +195,7 @@ lenis.on("scroll", (e) => {
 
 	gsap.to(document.body, {
 		duration: 1,
-		scale: Math.max(0.7, 0.75 - Math.abs(e.velocity / 100)),
+		scale: isMobile ? 1 : Math.max(0.7, 0.75 - Math.abs(e.velocity / 100)),
 	});
 
 	activeContainer = null;
@@ -192,16 +207,24 @@ containers.forEach((container) => {
 		// Check if GSAP scroll is in progress or a container is already expanded
 		if (isGsapScrolling || activeContainer) return;
 
+		console.log([
+			container.childNodes[3].childNodes[1],
+			...[...container.childNodes[3].childNodes[3].childNodes].filter(
+				(node) => node.nodeName === "DIV"
+			),
+		]);
+		console.log([container.childNodes[3].childNodes[1]]);
+
 		// Check if the container is not already in the openedContainers object
 		if (!openedContainers[container.id]) {
 			// Initialize the container sections
 			openedContainers[container.id] = {
 				currentSection: 0,
 				sections: [
-					container.childNodes[3], // Assuming this is the first section
-					...[...container.childNodes[5].childNodes].filter(
-						(node) => node.nodeName === "DIV"
-					),
+					container.childNodes[3].childNodes[1], // Assuming this is the first section
+					...[
+						...container.childNodes[3].childNodes[3].childNodes,
+					].filter((node) => node.nodeName === "DIV"),
 				],
 			};
 		}
@@ -221,12 +244,15 @@ videos.forEach((video) => {
 
 		// Check if mouse movement occurs within a container, handle it and return
 		if (handleMouseMovement(video, mouseX)) return;
-		e.stopPropagation();
-
-		// Check if the video is playing and update cursor accordingly
-		video.style.cursor = isVideoPlaying(video)
-			? "var(--cursor-pause)"
-			: "var(--cursor-play)";
+		else{
+			console.log('video mousemove');
+			e.stopPropagation();
+	
+			// Check if the video is playing and update cursor accordingly
+			video.style.cursor = isVideoPlaying(video)
+				? "var(--cursor-pause)"
+				: "var(--cursor-play)";
+		}
 	});
 
 	// Event listener for video clicks
@@ -273,13 +299,16 @@ carousels.forEach((carousel) => {
 
 		// Check if mouse movement occurs within the carousel, handle it and return
 		if (handleMouseMovement(carousel, mouseX)) return;
-		e.stopPropagation();
-
-		// Update cursor based on mouse position
-		carousel.style.cursor =
-			mouseX > carouselLeft + carouselWidth * 0.5
-				? "var(--cursor-carousel-right)"
-				: "var(--cursor-carousel-left)";
+		else{
+			console.log('carousel mousemove');
+			e.stopPropagation();
+	
+			// Update cursor based on mouse position
+			carousel.style.cursor =
+				mouseX > carouselLeft + carouselWidth * 0.5
+					? "var(--cursor-carousel-right)"
+					: "var(--cursor-carousel-left)";
+		}
 	});
 
 	// Event listener for carousel clicks
@@ -293,7 +322,7 @@ carousels.forEach((carousel) => {
 		// Check if click occurs within the carousel, handle it and return
 		if (handleMouseMovement(carousel, mouseX)) return;
 		e.stopPropagation();
-		
+
 		// Determine scrolling direction based on click position
 		const scrolling =
 			mouseX > carouselLeft + carouselWidth * 0.5
