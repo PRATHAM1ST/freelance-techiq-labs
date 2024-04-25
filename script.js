@@ -123,7 +123,7 @@ async function expandContainer(container) {
 			height: targetHeight,
 			ease: "power2.inOut",
 			overflowX: "hidden",
-			overflowY: "scroll",
+			overflowY: "auto",
 			stagger: 0.3,
 		});
 
@@ -290,26 +290,27 @@ async function expandContainer(container) {
 // Event listener for scroll
 lenis.on("scroll", (e) => {
 	if (isGsapScrolling || isMobile) return;
-
+	
 	gsap.to(activeContainer, {
 		width: "133.33%",
 		x: "-12.5%",
 		overflowX: "hidden",
 	});
-
+	
 	gsap.to(document.body, {
 		duration: 1,
 		scale: isMobile ? 1 : Math.max(0.7, 0.75 - Math.abs(e.velocity / 100)),
 	});
-
+	
 	activeContainer = null;
 });
 
 // Event listener for container clicks
 containers.forEach((container) => {
 	container.addEventListener("click", () => {
+		console.log('activeContainer', activeContainer);
 		// Check if GSAP scroll is in progress or a container is already expanded
-		if (isGsapScrolling || activeContainer) return;
+		if (isGsapScrolling || (activeContainer && !isMobile)) return;
 
 		console.log([
 			container.childNodes[3].childNodes[1],
