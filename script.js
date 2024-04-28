@@ -98,14 +98,21 @@ function handleContainerCursors(container) {
 		if (containerInformation[container.id].isDragging) {
 			container.style.cursor = "grabbing";
 			return;
-		} else if (x < window.innerWidth * 0.2 && containerInformation[container.id].activeElement !== 0) {
+		} else if (
+			x < window.innerWidth * 0.2 &&
+			containerInformation[container.id].activeElement !== 0
+		) {
 			listOfCursors.containerLeft.style.display = "block";
 			listOfCursors.containerLeft.style.top = y + "px";
 			listOfCursors.containerLeft.style.left = x + "px";
 			return;
 		}
 		// make container cursor visible when 20% left of the screen
-		else if (x > window.innerWidth * 0.8 && containerInformation[container.id].activeElement !== containerInformation[container.id].elements.length - 1) {
+		else if (
+			x > window.innerWidth * 0.8 &&
+			containerInformation[container.id].activeElement !==
+				containerInformation[container.id].elements.length - 1
+		) {
 			listOfCursors.containerRight.style.display = "block";
 			listOfCursors.containerRight.style.top = y + "px";
 			listOfCursors.containerRight.style.left = x + "px";
@@ -224,7 +231,7 @@ function handleContainerClicks(container) {
 	container.addEventListener("click", async (e) => {
 		const x = e.clientX;
 
-		if(activeContainer !== null && activeContainer !== container) {
+		if (activeContainer !== null && activeContainer !== container) {
 			handleDocumentScroll();
 		}
 
@@ -295,7 +302,9 @@ function handleContainerClicks(container) {
 		const promise1 = gsap.to(heroImage, {
 			duration: 1,
 			height: isMobile ? "auto" : containerGlobalConstants.height,
-			width: isMobile ? containerGlobalConstants.mobileWidth : "fit-content",
+			width: isMobile
+				? containerGlobalConstants.mobileWidth
+				: "fit-content",
 		});
 
 		const promise2 = gsap.to(main, {
@@ -330,12 +339,13 @@ function handleContainerClicks(container) {
 
 		const promise8 = gsap.to(containerCover, {
 			duration: 1,
-			right: isMobile ? 0 : `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`,
-			paddingLeft: "calc((100vw - var(--mobile-content-width)) / 2)"
+			right: isMobile
+				? 0
+				: `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`,
+			paddingLeft: "calc((100vw - var(--mobile-content-width)) / 2)",
 		});
 
-		if(isMobile) {
-
+		if (isMobile) {
 		}
 
 		await Promise.all([

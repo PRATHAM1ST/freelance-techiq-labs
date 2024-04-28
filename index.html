@@ -8,6 +8,7 @@
 		/>
 		<title>Document</title>
 		<link rel="stylesheet" href="style.css" />
+		<script src="https://unpkg.com/lenis@1.0.44/dist/lenis.min.js"></script>
 	</head>
 	<body>
 		<div class="global-cursors">
@@ -339,5 +340,14 @@
 		crossorigin="anonymous"
 		referrerpolicy="no-referrer"
 	></script>
+	<script>
+		const lenis = new Lenis();
+
+		gsap.ticker.add((time) => {
+			lenis.raf(time * 500);
+		});
+
+		gsap.ticker.lagSmoothing(200);
+	</script>
 	<script src="script.js" type="module"></script>
 </html>
