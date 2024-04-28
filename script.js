@@ -22,6 +22,7 @@ if (isMobile) {
 		video.autoplay = false;
 		video.loop = true;
 		video.muted = true;
+		video.controls = true;
 	}
 }
 
