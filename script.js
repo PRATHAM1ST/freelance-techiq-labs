@@ -29,6 +29,8 @@ window.addEventListener("resize", () => {
 	isMobile = window.innerWidth < 768;
 });
 
+
+
 function handleDocumentScroll() {
 	if (activeContainer === null) return;
 	hideAllCursors();
@@ -65,11 +67,13 @@ function handleDocumentScroll() {
 }
 
 function documentScrollAdder() {
+	lenis.start()
 	console.log("adding scroll event listener");
 	document.addEventListener("scroll", handleDocumentScroll);
 }
 
 function documentScrollRemover() {
+	lenis.stop()
 	console.log("removing scroll event listener");
 	document.removeEventListener("scroll", handleDocumentScroll);
 }
@@ -309,7 +313,15 @@ function handleContainerClicks(container) {
 			width: containerGlobalConstants.width,
 		});
 
-		await Promise.all([a, b]);
+		const c = gsap.to(window, {
+			duration: 1,
+			scrollTo: {
+				// y: container,
+				// offsetY: window.innerHeight * 0.1,
+			},
+		});
+
+		await Promise.all([a, b, c]);
 
 		const promise1 = gsap.to(heroImage, {
 			duration: 1,
@@ -372,24 +384,23 @@ function handleContainerClicks(container) {
 		gsap.to(mainContainer, {
 			scale: 1,
 		});
-		
+
 		for (const carouselContainer of carouselContainers) {
 			const carousels = carouselContainer.querySelectorAll(".carousel");
-			
+
 			gsap.to(carouselContainer, {
 				duration: 1,
-				maxWidth: "90vw",
-				width: isMobile ? "90vw" : "500px",
-				minWidth: isMobile ? "90vw" : "500px",
+				width: "var(--carousel-width)",
+				minWidth: "var(--carousel-width)",
 			});
-			
+
 			const carouselsLength = carousels.length - 1;
 			var tl = gsap.timeline({ repeat: -1, repeatDelay: 0 });
 
 			for (const carousel of carousels) {
 				gsap.to(carousel, {
 					duration: carouselsLength * 4,
-					x: -carousel.offsetWidth * (carouselsLength),
+					x: -carousel.offsetWidth * carouselsLength,
 					ease: `steps(${carouselsLength})`,
 					repeat: -1,
 				});
