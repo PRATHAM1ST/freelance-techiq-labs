@@ -33,6 +33,8 @@ window.addEventListener("resize", () => {
 
 function handleDocumentScroll() {
 	if (activeContainer === null) return;
+	if (isMobile) return;
+
 	hideAllCursors();
 	const main = activeContainer.querySelector(".content-main");
 	const containerCover = activeContainer.querySelector(".content-cover");
@@ -51,7 +53,7 @@ function handleDocumentScroll() {
 	gsap.to(main, {
 		x: 0,
 		width: isMobile ? "100vw" : "133.33vw",
-		overflowX: "hidden",
+		overflowX: isMobile ? "scroll" : "hidden",
 		scrollTo: {
 			x: containerInformation[activeContainer.id].scroll,
 		},
@@ -392,6 +394,7 @@ function handleContainerClicks(container) {
 				duration: 1,
 				width: "var(--carousel-width)",
 				minWidth: "var(--carousel-width)",
+				marginLeft: "var(--spacing)",
 			});
 
 			const carouselsLength = carousels.length - 1;

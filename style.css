@@ -269,7 +269,6 @@ body {
 	min-width: 0;
 	height: 100%;
 	overflow: hidden;
-	margin-left: var(--spacing);
 }
 
 .carousel {
@@ -298,8 +297,17 @@ body {
 	text-align: center;
 }
 
+.carousel small {
+	opacity: 0.5;
+	font-weight: 700;
+}
+
 @media screen and (max-width: 768px) {
-	.carousel {
+	.carousel p{
 		font-size: 12px;
+	}
+
+	.carousel small{
+		font-size: 10px;
 	}
 }
