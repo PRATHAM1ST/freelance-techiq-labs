@@ -135,9 +135,19 @@ body {
 
 .content-text {
 	min-width: 50ch;
+	overflow-y: auto;
 }
 
 @media screen and (max-width: 768px) {
+	.content-image,
+	.content-text,
+	.content-gif,
+	.content-video,
+	.content-carousel,
+	.carousel {
+		width: fit-content;
+		max-width: initial;
+	}
 	.content-text {
 		font-size: 12px;
 	}
@@ -303,11 +313,11 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-	.carousel p{
+	.carousel p {
 		font-size: 12px;
 	}
 
-	.carousel small{
+	.carousel small {
 		font-size: 10px;
 	}
 }

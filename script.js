@@ -235,6 +235,7 @@ function handleContainerClicks(container) {
 	const containerCover = container.querySelector(".content-cover");
 	const carouselContainers = container.querySelectorAll(".content-carousel");
 	const videos = container.querySelectorAll(".content-video");
+	const heroImageHeight = heroImage.offsetHeight;
 
 	const containerGlobalConstants = {
 		width: "100vw",
@@ -353,7 +354,7 @@ function handleContainerClicks(container) {
 
 		const promise6 = gsap.to([".content-video", ".content-gif"], {
 			duration: 1,
-			height: isMobile ? "100%" : containerGlobalConstants.height,
+			height: isMobile ? heroImageHeight : containerGlobalConstants.height,
 			width: "auto",
 		});
 
@@ -403,7 +404,7 @@ function handleContainerClicks(container) {
 			for (const carousel of carousels) {
 				gsap.to(carousel, {
 					duration: carouselsLength * 4,
-					x: -carousel.offsetWidth * carouselsLength,
+					x: activeContainer === container ? -carousel.offsetWidth * carouselsLength : -carousel.offsetWidth * carouselsLength * 0.75,
 					ease: `steps(${carouselsLength})`,
 					repeat: -1,
 				});
