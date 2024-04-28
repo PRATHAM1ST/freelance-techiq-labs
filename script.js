@@ -9,11 +9,21 @@ const listOfCursors = {
 const containers = document.querySelectorAll(".container");
 const mainContainer = document.querySelector(".main-container");
 
+const allVideos = document.querySelectorAll("video");
+
 const containerInformation = {};
 
 let activeContainer = null;
 
 let isMobile = window.innerWidth < 768;
+
+if (isMobile) {
+	for (const video of allVideos) {
+		video.autoplay = false;
+		video.loop = true;
+		video.muted = true;
+	}
+}
 
 window.addEventListener("resize", () => {
 	isMobile = window.innerWidth < 768;
@@ -217,6 +227,8 @@ function handleContainerClicks(container) {
 	const hiddenElements = container.querySelectorAll(".content-hidden");
 	const heroImage = container.querySelector(".content-hero-image");
 	const containerCover = container.querySelector(".content-cover");
+	const carouselContainers = container.querySelectorAll(".content-carousel");
+	const videos = container.querySelectorAll(".content-video");
 
 	const containerGlobalConstants = {
 		width: "100vw",
@@ -360,6 +372,29 @@ function handleContainerClicks(container) {
 		gsap.to(mainContainer, {
 			scale: 1,
 		});
+		
+		for (const carouselContainer of carouselContainers) {
+			const carousels = carouselContainer.querySelectorAll(".carousel");
+			
+			gsap.to(carouselContainer, {
+				duration: 1,
+				maxWidth: "90vw",
+				width: isMobile ? "90vw" : "500px",
+				minWidth: isMobile ? "90vw" : "500px",
+			});
+			
+			const carouselsLength = carousels.length - 1;
+			var tl = gsap.timeline({ repeat: -1, repeatDelay: 0 });
+
+			for (const carousel of carousels) {
+				gsap.to(carousel, {
+					duration: carouselsLength * 4,
+					x: -carousel.offsetWidth * (carouselsLength),
+					ease: `steps(${carouselsLength})`,
+					repeat: -1,
+				});
+			}
+		}
 
 		documentScrollAdder();
 	});
@@ -373,8 +408,6 @@ function handleContainerClicks(container) {
 
 		containerCover.style.right = `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`;
 	});
-
-	const videos = container.querySelectorAll(".content-video");
 
 	if (isMobile) return;
 
