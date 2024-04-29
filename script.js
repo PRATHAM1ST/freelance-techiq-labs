@@ -30,8 +30,6 @@ window.addEventListener("resize", () => {
 	isMobile = window.innerWidth < 768;
 });
 
-
-
 function handleDocumentScroll() {
 	if (activeContainer === null) return;
 	if (isMobile) return;
@@ -70,13 +68,13 @@ function handleDocumentScroll() {
 }
 
 function documentScrollAdder() {
-	lenis.start()
+	lenis.start();
 	console.log("adding scroll event listener");
 	document.addEventListener("scroll", handleDocumentScroll);
 }
 
 function documentScrollRemover() {
-	lenis.stop()
+	lenis.stop();
 	console.log("removing scroll event listener");
 	document.removeEventListener("scroll", handleDocumentScroll);
 }
@@ -355,7 +353,9 @@ function handleContainerClicks(container) {
 
 		const promise6 = gsap.to([".content-video", ".content-gif"], {
 			duration: 1,
-			height: isMobile ? heroImageHeight : containerGlobalConstants.height,
+			height: isMobile
+				? heroImageHeight
+				: containerGlobalConstants.height,
 			width: "auto",
 		});
 
@@ -405,7 +405,10 @@ function handleContainerClicks(container) {
 			for (const carousel of carousels) {
 				gsap.to(carousel, {
 					duration: carouselsLength * 4,
-					x: activeContainer === container ? -carousel.offsetWidth * carouselsLength : -carousel.offsetWidth * carouselsLength * 0.75,
+					x:
+						activeContainer === container
+							? -carousel.offsetWidth * carouselsLength
+							: -carousel.offsetWidth * carouselsLength * 0.75,
 					ease: `steps(${carouselsLength})`,
 					repeat: -1,
 				});
@@ -424,6 +427,17 @@ function handleContainerClicks(container) {
 
 		containerCover.style.right = `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`;
 	});
+
+	for (const carouselContainer of carouselContainers) {
+		const carousels = carouselContainer.querySelectorAll(".carousel");
+		for (let i = 1; i <= carousels.length; i++) {
+			const small = document.createElement("small");
+			small.textContent = `${String(i).padStart(2, "0")} / ${String(
+				carousels.length
+			).padStart(2, "0")}`;
+			carousels[i - 1].appendChild(small);
+		}
+	}
 
 	if (isMobile) return;
 
