@@ -290,7 +290,7 @@ function handleContainerClicks(container) {
 			}
 
 			await gsap.to(main, {
-				duration: 1,
+				duration: config.animationDuration,
 				scrollTo: {
 					x: elements[activeElement],
 					offsetX:
@@ -313,7 +313,7 @@ function handleContainerClicks(container) {
 		containerInformation[container.id].opened = true;
 
 		const focusingContainer = gsap.to(window, {
-			duration: 1,
+			duration: config.animationDuration,
 			scrollTo: {
 				y: container.offsetTop,
 				offsetY: window.innerHeight * config.containerFocusOffset,
@@ -321,7 +321,7 @@ function handleContainerClicks(container) {
 		});
 
 		const settingMainContainerWidthAndScale = gsap.to(mainContainer, {
-			duration: 1,
+			duration: config.animationDuration,
 			scale: 1,
 			width: containerGlobalConstants.width,
 		});
@@ -329,7 +329,7 @@ function handleContainerClicks(container) {
 		await Promise.all([focusingContainer, settingMainContainerWidthAndScale]);
 
 		const settingHeroImage = gsap.to(heroImage, {
-			duration: 1,
+			duration: config.animationDuration,
 			height: isMobile ? "auto" : containerGlobalConstants.height,
 			width: isMobile
 				? containerGlobalConstants.mobileWidth
@@ -337,7 +337,7 @@ function handleContainerClicks(container) {
 		});
 
 		const settingMain = gsap.to(main, {
-			duration: 1,
+			duration: config.animationDuration,
 			x: 0,
 			width: containerGlobalConstants.width,
 			height: containerGlobalConstants.height,
@@ -348,14 +348,14 @@ function handleContainerClicks(container) {
 		});
 
 		const revealingHiddenContent = gsap.to(hiddenElements, {
-			duration: 1,
+			duration: config.animationDuration,
 			width: "auto",
 			display: "block",
 			overflow: "visible",
 		});
 
 		const settingVideoAndGif = gsap.to([".content-video", ".content-gif"], {
-			duration: 1,
+			duration: config.animationDuration,
 			height: isMobile
 				? heroImageHeight
 				: containerGlobalConstants.height,
@@ -363,13 +363,13 @@ function handleContainerClicks(container) {
 		});
 
 		const settingContainerWidthAndPosition = gsap.to(container, {
-			duration: 1,
+			duration: config.animationDuration,
 			width: containerGlobalConstants.width,
 			x: 0,
 		});
 
 		const positioningCoverElements = gsap.to(containerCover, {
-			duration: 1,
+			duration: config.animationDuration,
 			right: isMobile
 				? 0
 				: `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`,
@@ -393,7 +393,7 @@ function handleContainerClicks(container) {
 			const carousels = carouselContainer.querySelectorAll(".carousel");
 
 			gsap.to(carouselContainer, {
-				duration: 1,
+				duration: config.animationDuration,
 				width: "var(--carousel-width)",
 				minWidth: "var(--carousel-width)",
 				marginLeft: "var(--spacing)",
