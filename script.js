@@ -1,3 +1,14 @@
+const config = {
+	animationDuration: 1, // 1 second animation for all animations
+	containerFocusOffset: 0.1, // 10% of the screen height
+	zoomOutScale: 0.75, // 75% of the original size
+	mobileResponsiveMinWidth: 768, // 768px
+}
+
+const calculatedConfig = {
+	zoomOutContainerWidth: `${100 / config.zoomOutScale}vw`,
+}
+
 const listOfCursors = {
 	containerLeft: document.getElementById("cursor-content-slider-left"),
 	containerRight: document.getElementById("cursor-content-slider-right"),
@@ -15,7 +26,7 @@ const containerInformation = {};
 
 let activeContainer = null;
 
-let isMobile = window.innerWidth < 768;
+let isMobile = window.innerWidth < config.mobileResponsiveMinWidth;
 
 if (isMobile) {
 	for (const video of allVideos) {
@@ -27,7 +38,7 @@ if (isMobile) {
 }
 
 window.addEventListener("resize", () => {
-	isMobile = window.innerWidth < 768;
+	isMobile = window.innerWidth < config.mobileResponsiveMinWidth;
 });
 
 function handleDocumentScroll() {
@@ -41,17 +52,17 @@ function handleDocumentScroll() {
 		window.getComputedStyle(containerCover)["right"];
 
 	gsap.to(mainContainer, {
-		scale: isMobile ? 1 : 0.75,
-		width: isMobile ? "100vw" : "133.33vw",
+		scale: isMobile ? 1 : config.zoomOutScale,
+		width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
 	});
 
 	gsap.to(activeContainer, {
-		width: isMobile ? "100vw" : "133.33vw",
+		width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
 	});
 
 	gsap.to(main, {
 		x: 0,
-		width: isMobile ? "100vw" : "133.33vw",
+		width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
 		overflowX: isMobile ? "scroll" : "hidden",
 		scrollTo: {
 			x: containerInformation[activeContainer.id].scroll,
@@ -59,7 +70,7 @@ function handleDocumentScroll() {
 	});
 
 	gsap.to(containerCover, {
-		right: isMobile ? 0 : containerCoverRight * 0.75,
+		right: isMobile ? 0 : containerCoverRight * config.zoomOutScale,
 	});
 
 	containerInformation[activeContainer.id].opened = false;
@@ -301,31 +312,23 @@ function handleContainerClicks(container) {
 
 		containerInformation[container.id].opened = true;
 
-		const a = gsap.to(window, {
+		const focusingContainer = gsap.to(window, {
 			duration: 1,
 			scrollTo: {
 				y: container.offsetTop,
-				offsetY: window.innerHeight * 0.1,
+				offsetY: window.innerHeight * config.containerFocusOffset,
 			},
 		});
 
-		const b = gsap.to(mainContainer, {
+		const settingMainContainerWidthAndScale = gsap.to(mainContainer, {
 			duration: 1,
 			scale: 1,
 			width: containerGlobalConstants.width,
 		});
 
-		const c = gsap.to(window, {
-			duration: 1,
-			scrollTo: {
-				// y: container,
-				// offsetY: window.innerHeight * 0.1,
-			},
-		});
+		await Promise.all([focusingContainer, settingMainContainerWidthAndScale]);
 
-		await Promise.all([a, b, c]);
-
-		const promise1 = gsap.to(heroImage, {
+		const settingHeroImage = gsap.to(heroImage, {
 			duration: 1,
 			height: isMobile ? "auto" : containerGlobalConstants.height,
 			width: isMobile
@@ -333,7 +336,7 @@ function handleContainerClicks(container) {
 				: "fit-content",
 		});
 
-		const promise2 = gsap.to(main, {
+		const settingMain = gsap.to(main, {
 			duration: 1,
 			x: 0,
 			width: containerGlobalConstants.width,
@@ -344,14 +347,14 @@ function handleContainerClicks(container) {
 			overflowX: "scroll",
 		});
 
-		const promise5 = gsap.to(hiddenElements, {
+		const revealingHiddenContent = gsap.to(hiddenElements, {
 			duration: 1,
 			width: "auto",
 			display: "block",
 			overflow: "visible",
 		});
 
-		const promise6 = gsap.to([".content-video", ".content-gif"], {
+		const settingVideoAndGif = gsap.to([".content-video", ".content-gif"], {
 			duration: 1,
 			height: isMobile
 				? heroImageHeight
@@ -359,30 +362,27 @@ function handleContainerClicks(container) {
 			width: "auto",
 		});
 
-		const promise7 = gsap.to(container, {
+		const settingContainerWidthAndPosition = gsap.to(container, {
 			duration: 1,
 			width: containerGlobalConstants.width,
 			x: 0,
 		});
 
-		const promise8 = gsap.to(containerCover, {
+		const positioningCoverElements = gsap.to(containerCover, {
 			duration: 1,
 			right: isMobile
 				? 0
 				: `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`,
 			paddingLeft: "calc((100vw - var(--mobile-content-width)) / 2)",
-		});
-
-		if (isMobile) {
-		}
+		});		
 
 		await Promise.all([
-			promise1,
-			promise2,
-			promise5,
-			promise6,
-			promise7,
-			promise8,
+			settingHeroImage,
+			settingMain,
+			revealingHiddenContent,
+			settingVideoAndGif,
+			settingContainerWidthAndPosition,
+			positioningCoverElements,
 		]);
 
 		gsap.to(mainContainer, {
@@ -400,7 +400,6 @@ function handleContainerClicks(container) {
 			});
 
 			const carouselsLength = carousels.length - 1;
-			var tl = gsap.timeline({ repeat: -1, repeatDelay: 0 });
 
 			for (const carousel of carousels) {
 				gsap.to(carousel, {
@@ -408,7 +407,7 @@ function handleContainerClicks(container) {
 					x:
 						activeContainer === container
 							? -carousel.offsetWidth * carouselsLength
-							: -carousel.offsetWidth * carouselsLength * 0.75,
+							: -carousel.offsetWidth * carouselsLength * config.zoomOutScale,
 					ease: `steps(${carouselsLength})`,
 					repeat: -1,
 				});
@@ -481,8 +480,8 @@ for (const container of containers) {
 }
 
 gsap.to(mainContainer, {
-	scale: isMobile ? 1 : 0.75,
-	width: isMobile ? "100vw" : "133.33vw",
+	scale: isMobile ? 1 : config.zoomOutScale,
+	width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
 });
 
 hideAllCursors();
