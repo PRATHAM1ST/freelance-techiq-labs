@@ -1,13 +1,13 @@
 const config = {
 	animationDuration: 1, // 1 second animation for all animations
-	containerFocusOffset: 0.1, // 10% of the screen height
+	containerFocusOffset: 0.15, // 10% of the screen height
 	zoomOutScale: 0.75, // 75% of the original size
 	mobileResponsiveMinWidth: 768, // 768px
-}
+};
 
 const calculatedConfig = {
 	zoomOutContainerWidth: `${100 / config.zoomOutScale}vw`,
-}
+};
 
 const listOfCursors = {
 	containerLeft: document.getElementById("cursor-content-slider-left"),
@@ -17,7 +17,8 @@ const listOfCursors = {
 	pause: document.getElementById("cursor-content-video-pause"),
 	play: document.getElementById("cursor-content-video-play"),
 };
-const containers = document.querySelectorAll(".container");
+
+const containers = document.querySelectorAll(".scrollable-container");
 const mainContainer = document.querySelector(".main-container");
 
 const allVideos = document.querySelectorAll("video");
@@ -51,13 +52,19 @@ function handleDocumentScroll() {
 	const containerCoverRight =
 		window.getComputedStyle(containerCover)["right"];
 
-	gsap.to(mainContainer, {
-		scale: isMobile ? 1 : config.zoomOutScale,
-		width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
-	});
+	// gsap.to(mainContainer, {
+	// 	width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
+	// });
 
+	for (const container of containers) {
+		if (container === activeContainer) continue;
+		// container.style.transform = `scale(${
+		// 	isMobile ? 1 : config.zoomOutScale
+		// }) translateX(-50%)`;
+	}
 	gsap.to(activeContainer, {
 		width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
+		scale: isMobile ? 1 : config.zoomOutScale,
 	});
 
 	gsap.to(main, {
@@ -80,13 +87,11 @@ function handleDocumentScroll() {
 
 function documentScrollAdder() {
 	lenis.start();
-	console.log("adding scroll event listener");
 	document.addEventListener("scroll", handleDocumentScroll);
 }
 
 function documentScrollRemover() {
 	lenis.stop();
-	console.log("removing scroll event listener");
 	document.removeEventListener("scroll", handleDocumentScroll);
 }
 
@@ -214,7 +219,6 @@ function dragContainer(container) {
 		initialX = e.clientX;
 		initialScroll = main.scrollLeft;
 		containerInformation[container.id].scroll = main.scrollLeft;
-		console.log("initialScroll", initialScroll);
 	});
 
 	document.addEventListener("mousemove", (e) => {
@@ -312,22 +316,6 @@ function handleContainerClicks(container) {
 
 		containerInformation[container.id].opened = true;
 
-		const focusingContainer = gsap.to(window, {
-			duration: config.animationDuration,
-			scrollTo: {
-				y: container.offsetTop,
-				offsetY: window.innerHeight * config.containerFocusOffset,
-			},
-		});
-
-		const settingMainContainerWidthAndScale = gsap.to(mainContainer, {
-			duration: config.animationDuration,
-			scale: 1,
-			width: containerGlobalConstants.width,
-		});
-
-		await Promise.all([focusingContainer, settingMainContainerWidthAndScale]);
-
 		const settingHeroImage = gsap.to(heroImage, {
 			duration: config.animationDuration,
 			height: isMobile ? "auto" : containerGlobalConstants.height,
@@ -366,6 +354,7 @@ function handleContainerClicks(container) {
 			duration: config.animationDuration,
 			width: containerGlobalConstants.width,
 			x: 0,
+			scale: 1,
 		});
 
 		const positioningCoverElements = gsap.to(containerCover, {
@@ -374,7 +363,21 @@ function handleContainerClicks(container) {
 				? 0
 				: `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`,
 			paddingLeft: "calc((100vw - var(--mobile-content-width)) / 2)",
-		});		
+		});
+
+		const focusingContainer = gsap.to(window, {
+			duration: config.animationDuration,
+			scrollTo: {
+				y: container.offsetTop,
+				offsetY: window.innerHeight * config.containerFocusOffset,
+			},
+		});
+
+		const settingMainContainerWidthAndScale = gsap.to(mainContainer, {
+			duration: config.animationDuration,
+			scale: 1,
+			width: containerGlobalConstants.width,
+		});
 
 		await Promise.all([
 			settingHeroImage,
@@ -383,6 +386,11 @@ function handleContainerClicks(container) {
 			settingVideoAndGif,
 			settingContainerWidthAndPosition,
 			positioningCoverElements,
+		]);
+
+		await Promise.all([
+			focusingContainer,
+			settingMainContainerWidthAndScale,
 		]);
 
 		gsap.to(mainContainer, {
@@ -407,7 +415,9 @@ function handleContainerClicks(container) {
 					x:
 						activeContainer === container
 							? -carousel.offsetWidth * carouselsLength
-							: -carousel.offsetWidth * carouselsLength * config.zoomOutScale,
+							: -carousel.offsetWidth *
+							  carouselsLength *
+							  config.zoomOutScale,
 					ease: `steps(${carouselsLength})`,
 					repeat: -1,
 				});
@@ -477,11 +487,15 @@ for (const container of containers) {
 	if (isMobile === false) handleContainerCursors(container);
 	dragContainer(container);
 	handleContainerClicks(container);
+
+	gsap.to(container, {
+		scale: isMobile ? 1 : config.zoomOutScale,
+	});
 }
 
-gsap.to(mainContainer, {
-	scale: isMobile ? 1 : config.zoomOutScale,
-	width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
-});
+// gsap.to(mainContainer, {
+// 	// scale: isMobile ? 1 : config.zoomOutScale,
+// 	width: isMobile ? "100vw" : calculatedConfig.zoomOutContainerWidth,
+// });
 
 hideAllCursors();
