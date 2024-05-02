@@ -243,7 +243,7 @@ body {
 .content-cover a {
 	width: fit-content;
 	white-space: nowrap;
-	margin: none;
+	margin: 0;
 }
 
 .content-cover h3 {
