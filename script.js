@@ -349,6 +349,7 @@ function handleContainerClicks(container) {
 				? heroImageHeight
 				: containerGlobalConstants.height,
 			width: "auto",
+			maxWidth: "none",
 		});
 
 		const settingContainerWidthAndPosition = gsap.to(container, {
