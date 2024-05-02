@@ -343,6 +343,15 @@ function handleContainerClicks(container) {
 			overflow: "visible",
 		});
 
+		const settingOverflowText = gsap.to(".content-text", {
+			duration: config.animationDuration,
+			overflowY: "auto",
+			overflowX: "hidden",
+			height: isMobile
+			? heroImageHeight
+			: containerGlobalConstants.height
+		});
+
 		const settingVideoAndGif = gsap.to([".content-video", ".content-gif"], {
 			duration: config.animationDuration,
 			height: isMobile
@@ -390,6 +399,7 @@ function handleContainerClicks(container) {
 			settingVideoAndGif,
 			settingContainerWidthAndPosition,
 			positioningCoverElements,
+			settingOverflowText
 		]);
 
 		await Promise.all([
