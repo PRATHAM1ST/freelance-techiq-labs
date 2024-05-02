@@ -254,7 +254,7 @@ function handleContainerClicks(container) {
 	const containerGlobalConstants = {
 		width: "100vw",
 		height: isMobile ? "auto" : "80vh",
-		padding: isMobile ? "2rem" : "15rem",
+		padding: isMobile ? "2rem" : "12.75rem",
 		coverWidth: isMobile
 			? 0
 			: `calc(${containerCover.offsetWidth}px + var(--spacing))`,
