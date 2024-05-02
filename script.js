@@ -250,11 +250,12 @@ function handleContainerClicks(container) {
 	const carouselContainers = container.querySelectorAll(".content-carousel");
 	const videos = container.querySelectorAll(".content-video");
 	const heroImageHeight = heroImage.offsetHeight;
+	const containerCoverWidth = String(containerCover.offsetWidth);
 
 	const containerGlobalConstants = {
 		width: "100vw",
 		height: isMobile ? "auto" : "80vh",
-		padding: isMobile ? "2rem" : "12.75rem",
+		padding: "2rem",
 		coverWidth: isMobile
 			? 0
 			: `calc(${containerCover.offsetWidth}px + var(--spacing))`,
@@ -357,11 +358,13 @@ function handleContainerClicks(container) {
 			scale: 1,
 		});
 
+		console.log(containerCoverWidth, 'containerCoverWidth');
+
 		const positioningCoverElements = gsap.to(containerCover, {
 			duration: config.animationDuration,
 			right: isMobile
 				? 0
-				: `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`,
+				: `calc(100% - ${containerGlobalConstants.padding} - ${containerCoverWidth}px + ${main.scrollLeft}px)`,
 			paddingLeft: "calc((100vw - var(--mobile-content-width)) / 2)",
 		});
 
@@ -434,7 +437,7 @@ function handleContainerClicks(container) {
 
 		containerInformation[container.id].scroll = main.scrollLeft;
 
-		containerCover.style.right = `calc(100% - ${containerGlobalConstants.padding} + ${main.scrollLeft}px)`;
+		containerCover.style.right = `calc(100% - ${containerGlobalConstants.padding} - ${containerCoverWidth}px + ${main.scrollLeft}px)`;
 	});
 
 	for (const carouselContainer of carouselContainers) {

@@ -2,14 +2,13 @@
 
 :root {
 	--spacing: 2rem;
-	--content-height: 50vh;
+	--content-height: auto;
 	--mobile-content-width: 90vw;
 	--carousel-width: 700px;
 }
 
 @media screen and (max-width: 768px) {
 	:root {
-		--content-height: auto;
 		--carousel-width: 90vw;
 	}
 }
@@ -253,8 +252,8 @@ body {
 .content-hero-image {
 	display: block;
 	position: relative;
-	height: 100%;
-	width: auto;
+	width: 50vw;
+	height: fit-content;
 }
 
 @media screen and (max-width: 768px) {
