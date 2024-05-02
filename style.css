@@ -243,6 +243,15 @@ body {
 .content-cover a {
 	width: fit-content;
 	white-space: nowrap;
+	margin: none;
+}
+
+.content-cover h3 {
+	color: #bd741b;
+}
+
+.content-cover a {
+	font-weight: 600;
 }
 
 /* --------------------- content cover end ------------------------ */
