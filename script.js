@@ -3,10 +3,14 @@ const config = {
 	containerFocusOffset: 0.15, // 10% of the screen height
 	zoomOutScale: 0.75, // 75% of the original size
 	mobileResponsiveMinWidth: 768, // 768px
+	bottomNavigation: 130, // 130px
 };
+
+let isMobile = window.innerWidth < config.mobileResponsiveMinWidth;
 
 const calculatedConfig = {
 	zoomOutContainerWidth: `${100 / config.zoomOutScale}vw`,
+	bottomNavigation: isMobile ? 0 : config.bottomNavigation,
 };
 
 const listOfCursors = {
@@ -26,8 +30,6 @@ const allVideos = document.querySelectorAll("video");
 const containerInformation = {};
 
 let activeContainer = null;
-
-let isMobile = window.innerWidth < config.mobileResponsiveMinWidth;
 
 if (isMobile) {
 	for (const video of allVideos) {
@@ -258,7 +260,7 @@ function handleContainerClicks(container) {
 		padding: "2rem",
 		coverWidth: isMobile
 			? 0
-			: `calc(${containerCover.offsetWidth}px + var(--spacing))`,
+			: `calc(${containerCover.offsetWidth}px + var(--spacing) + ${calculatedConfig.bottomNavigation}px)`,
 		mobileWidth: "90vw",
 	};
 
@@ -374,7 +376,7 @@ function handleContainerClicks(container) {
 			duration: config.animationDuration,
 			right: isMobile
 				? 0
-				: `calc(100% - ${containerGlobalConstants.padding} - ${containerCoverWidth}px + ${main.scrollLeft}px)`,
+				: `calc(100% - ${containerGlobalConstants.padding} - ${containerCoverWidth}px + ${main.scrollLeft}px - ${calculatedConfig.bottomNavigation}px)`,
 			paddingLeft: "calc((100vw - var(--mobile-content-width)) / 2)",
 		});
 
@@ -448,7 +450,7 @@ function handleContainerClicks(container) {
 
 		containerInformation[container.id].scroll = main.scrollLeft;
 
-		containerCover.style.right = `calc(100% - ${containerGlobalConstants.padding} - ${containerCoverWidth}px + ${main.scrollLeft}px)`;
+		containerCover.style.right = `calc(100% - ${containerGlobalConstants.padding} - ${containerCoverWidth}px + ${main.scrollLeft}px - ${calculatedConfig.bottomNavigation}px)`;
 	});
 
 	for (const carouselContainer of carouselContainers) {
