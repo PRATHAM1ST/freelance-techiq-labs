@@ -11,6 +11,15 @@
 		<script src="https://unpkg.com/lenis@1.0.44/dist/lenis.min.js"></script>
 	</head>
 	<body>
+		<span class="fixed-dot start">.</span>
+		<span class="fixed-dot end">.</span>
+		<div class="initial-loading">
+			<span class="dot none">.</span>
+			<span class="a">a</span>
+			<span class="a">a</span>
+			<span class="a">a</span>
+			<span class="dot">.</span>
+		</div>
 		<div class="global-cursors">
 			<img
 				id="cursor-content-slider-left"
@@ -198,4 +207,5 @@
 		gsap.ticker.lagSmoothing(0);
 	</script>
 	<script src="script.js" type="module"></script>
+	<script src="initial.js" type="module"></script>
 </html>

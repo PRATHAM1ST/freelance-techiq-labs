@@ -24,6 +24,46 @@
 body {
 	overflow-x: hidden;
 }
+/* -----------------initial loading-------------------------------- */
+
+.none{
+	opacity: 0;
+}
+
+.fixed-dot{
+	position: fixed;
+	top: 50%;
+	left: calc(50% - 1.15em);
+	transform: translate(-50%, -47%);
+	color: black;
+	border-radius: 50%;
+	animation: dot 1s infinite;
+	z-index: 999999;
+	font-weight: bold;
+	font-size: xx-large;
+	opacity: 0;
+}
+
+.initial-loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 999;
+	font-family: "century gothic";
+	font-weight: bold;
+	font-size: xx-large;
+}
+
+.initial-loading span{
+	opacity: 0;
+}
+
 
 /* -----------------cursors-------------------------------- */
 
