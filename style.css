@@ -303,6 +303,8 @@ body {
 	position: relative;
 	width: 50vw;
 	height: fit-content;
+	aspect-ratio: 16/9;
+	object-fit: cover;
 }
 
 @media screen and (max-width: 768px) {
@@ -343,6 +345,7 @@ body {
 .carousel img {
 	width: 100%;
 	height: auto;
+	aspect-ratio: 16/9;
 	object-fit: cover;
 }
 
@@ -368,3 +371,39 @@ body {
 		font-size: 10px;
 	}
 }
+
+/* -------------------- content carousel end ---------------------------- */
+/* -------------------- Sidebad navbar -------------------------- */
+
+.side-navbar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 6rem;
+	height: 100vh;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
+	padding: 5rem 2.5rem;
+}
+
+.side-navbar a{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: black;
+	margin: 1rem 0;
+}
+
+.side-navbar img{
+	width: 3rem;
+	height: 3rem;
+	aspect-ratio: 1/1;
+}
+
